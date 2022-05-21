@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { LoginForm } from "./loginForm";
+import { SignUpForm } from "./singupForm";
 
 /* box da tela de cadastro/login */
 const BoxContainer = styled.div`
@@ -16,7 +18,7 @@ const BoxContainer = styled.div`
 
 /* box do topo */
 const TopContainer = styled.div`
-   width:100vw;
+   width:100%;
    height:250px;
    display:flex;
    flex-direction:column;
@@ -40,7 +42,7 @@ const BackDrop = styled.div`
 `;
 
 const HeaderContainer = styled.div`
-    width:100vw;
+    width:100%;
     display:flex;
     flex-direction:column;
     padding-bottom:60px;
@@ -59,6 +61,14 @@ const SmallText = styled.h5`
      font-weight:500;
      font-size:11px;
      z-index: 10;
+     margin-top:7px;
+`;
+
+const InnerContainer = styled.div`
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    padding:1.8em;
 `;
 
 export function AccountBox(props) {
@@ -71,5 +81,9 @@ export function AccountBox(props) {
                 <SmallText>Por favor, entre para continuar</SmallText>
             </HeaderContainer>
         </TopContainer>
+        <InnerContainer>
+            <LoginForm/>
+            {/* <SignUpForm/> */}
+        </InnerContainer>
     </BoxContainer>
 }
