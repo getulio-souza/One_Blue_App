@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { LoginForm } from "./loginForm";
 import { SignUpForm } from "./singupForm";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 /* box da tela de cadastro/login */
 const BoxContainer = styled.div`
@@ -27,7 +29,7 @@ const TopContainer = styled.div`
 `;
 
 /*região animada que desce e sobe*/
-const BackDrop = styled.div`
+const BackDrop = styled(motion.div)`
    width:160%;
    height:550px;
    position: absolute;
@@ -71,10 +73,28 @@ const InnerContainer = styled.div`
     padding:1.8em;
 `;
 
+const backDropVariants = {
+    expanded: {
+        width: "233 %",
+        height: "1050px",
+        borderRadius: "20%",
+        transform:"rotate(60deg)"
+    },
+    collapsed: {
+        width: "160%",
+        height: "550px",
+        borderRadius: "50%",
+        transform: "rotate(60deg)"
+    }
+}
+
 export function AccountBox(props) {
+    /*cabeçalho animado */
+    const [isExpanded, SetExpanded] = useState(false);
+
     return <BoxContainer>
         <TopContainer>
-            <BackDrop />
+            <BackDrop initial={false} animate={isExpanded ? "expanded" : collapsed} variants={backDropVariants}/>
             <HeaderContainer>
                 <HeaderText>Bem-vindo </HeaderText>
                 <HeaderText>de volta </HeaderText>
