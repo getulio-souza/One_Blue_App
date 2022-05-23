@@ -4,6 +4,7 @@ import { LoginForm } from "./loginForm";
 import { SignUpForm } from "./singupForm";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { AccountContext } from "./accountContext";
 
 /* box da tela de cadastro/login */
 const BoxContainer = styled.div`
@@ -75,35 +76,81 @@ const InnerContainer = styled.div`
 
 const backDropVariants = {
     expanded: {
-        width: "233 %",
+        width: "233%",
         height: "1050px",
         borderRadius: "20%",
-        transform:"rotate(60deg)"
+        transform: "rotate(60deg)"
     },
     collapsed: {
         width: "160%",
         height: "550px",
         borderRadius: "50%",
         transform: "rotate(60deg)"
-    }
+    },
+};
+
+const expandingTransition = {
+    type: "spring",
+    duration: 2.3,
+    stiffness: 30,
 }
 
 export function AccountBox(props) {
     /*cabeçalho animado */
     const [isExpanded, SetExpanded] = useState(false);
+    const [active, setActive] = useState("signin");
 
-    return <BoxContainer>
-        <TopContainer>
-            <BackDrop initial={false} animate={isExpanded ? "expanded" : collapsed} variants={backDropVariants}/>
-            <HeaderContainer>
-                <HeaderText>Bem-vindo </HeaderText>
-                <HeaderText>de volta </HeaderText>
-                <SmallText>Por favor, entre para continuar</SmallText>
-            </HeaderContainer>
-        </TopContainer>
-        <InnerContainer>
-            <LoginForm/>
-            {/* <SignUpForm/> */}
-        </InnerContainer>
-    </BoxContainer>
+    const playExpandingAnimation = () => {
+        SetExpanded(true);
+        setTimeout(() => {
+            SetExpanded(false)
+        }, expandingTransition.duration * 1000 - 1500);
+    }
+
+
+    /* Altera entre as telas de login e cadastro */
+    const switchToSignup = () => {
+        playExpandingAnimation();
+        setTimeout(() => {
+            setActive("signup");
+        }, 400);
+    }
+
+    const switchToSignin = () => {
+        playExpandingAnimation();
+        setTimeout(() => {
+            setActive("signin");
+        }, 400);
+    }
+
+    const contextValue = {switchToSignup, switchToSignin};
+
+    return (
+        <AccountContext.Provider value={contextValue}>
+            <BoxContainer>
+                <TopContainer>
+                    <BackDrop
+                        initial={false}
+                        animate={isExpanded ? "expanded" : "collapsed"}
+                        variants={backDropVariants}
+                        transition={expandingTransition}
+                    />
+                    {active === "signin" && <HeaderContainer>
+                        <HeaderText>Bem-vindo </HeaderText>
+                        <HeaderText>de volta </HeaderText>
+                        <SmallText>Por favor, entre para continuar</SmallText>
+                    </HeaderContainer>}
+                    {active === "signup" && <HeaderContainer>
+                        <HeaderText>Criar</HeaderText>
+                        <HeaderText>Conta</HeaderText>
+                        <SmallText>Por favor, cadastre-se para continuar</SmallText>
+                    </HeaderContainer>}
+                </TopContainer>
+                <InnerContainer>
+                    {active === 'signin' && <LoginForm />}
+                    {active === 'signup' && <SignUpForm />}
+                </InnerContainer>
+            </BoxContainer>
+        </AccountContext.Provider>
+    );
 }
