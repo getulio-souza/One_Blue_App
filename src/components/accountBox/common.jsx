@@ -27,7 +27,7 @@ export const Boldlink = styled.a`
   font-size: 12px;
   color: rgb(2, 0, 36);
   font-weight: 500;
-  text-decoration: none;
+  text-decoration: underline;
   margin: 0 4px;
 `;
 
@@ -70,4 +70,16 @@ export const SubmitButton = styled.button`
   &:hover {
     opacity: 6;
   }
+`;
+
+export const FieldContainer = styled.div`
+  width:100%;
+  display:flex;
+  flex-direction: column;
+`;
+
+export const FieldError = styled.span`
+  color:#b32e2e;
+  font-size:11px;
+  min-height:18px;
 `;
