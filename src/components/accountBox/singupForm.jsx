@@ -1,5 +1,5 @@
 import { Field, useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import {
   BoxContainer,
   FormContainer,
@@ -9,11 +9,15 @@ import {
   Boldlink,
   FieldContainer,
   FieldError,
+  FormSuccess,
+  FormError,
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 import { useContext } from "react";
 import * as yup from "yup";
+import axios from "axios";
+// import { CadasterController } from "../../Controllers/cadasterController";
 
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
@@ -35,6 +39,7 @@ const validationSchema = yup.object({
     is: (val) => (val && val.length > 0 ? true : false),
     then: yup
       .string()
+      .required("Por favor, confirme sua senha")
       .oneOf(
         [yup.ref("password")],
         "As senhas precisam ser iguais. Tente novamente."
@@ -44,9 +49,22 @@ const validationSchema = yup.object({
 
 export function SignUpForm(props) {
   const { switchToSignin } = useContext(AccountContext);
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
 
-  const onSubmit = () => {
-    alert(JSON.stringify(values));
+  const onSubmit = async (values) => {
+    const { confirmarSenha, ...data } = values; 
+    const response = await axios.post("http://localhost:5000/api/v1/register", data).catch((err) => {
+      if (err && err.response)
+      setError(err.response.data.message);
+      setSuccess(null);
+    });
+    
+    if (response && response.data) {
+      setError(null);
+      setSuccess(response.data.message)
+      formik.resetForm();
+    }
   };
 
   const formik = useFormik({
@@ -61,10 +79,10 @@ export function SignUpForm(props) {
     validationSchema: validationSchema,
   });
 
-  console.log("Error: ", formik.errors);
-
   return (
     <BoxContainer>
+      {!error && <FormSuccess>{success ? success : "Cadastro realizado com sucesso!"}</FormSuccess>}
+      {!success && <FormError>{error ? error : ""}</FormError>}
       <FormContainer onSubmit={formik.handleSubmit}>
         <FieldContainer>
           <Input
@@ -81,7 +99,7 @@ export function SignUpForm(props) {
               : ""}
           </FieldError>
         </FieldContainer>
-        
+
         <FieldContainer>
           <Input
             name="email"
@@ -133,7 +151,7 @@ export function SignUpForm(props) {
         <Marginer direction="vertical" margin={10} />
         <MutedLink href="#">Esqueci minha senha</MutedLink>
         <Marginer direction="vertical" margin={10} />
-        <SubmitButton type="submit">Cadastre-se</SubmitButton>
+        <SubmitButton type="submit" disabled={!formik.isValid}>Cadastre-se</SubmitButton>
       </FormContainer>
       <Marginer direction="vertical" margin="1em" />
       <MutedLink href="#">

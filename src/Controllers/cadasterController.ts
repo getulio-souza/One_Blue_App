@@ -18,7 +18,6 @@ export class CadasterController {
       return res.status(500).json({ ok: false, why: 'format is wrong' })
     }
 
-
     const user = Cadaster({ name, password })
     if (user.ok === false) {
 

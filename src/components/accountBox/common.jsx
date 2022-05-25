@@ -8,6 +8,7 @@ export const BoxContainer = styled.div`
   margin-top: 10px;
 `;
 
+/* campo de formulário */ 
 export const FormContainer = styled.form`
   width: 100%;
   display: flex;
@@ -15,6 +16,7 @@ export const FormContainer = styled.form`
   text-align: center;
 `;
 
+/*botão "esqueci minha senha" */
 export const MutedLink = styled.a`
   font-size: 12px;
   color: rgba(200, 200, 200, 0.8);
@@ -70,6 +72,9 @@ export const SubmitButton = styled.button`
   &:hover {
     opacity: 6;
   }
+  &:disabled{
+    filter:contrast(0.7);
+  }
 `;
 
 export const FieldContainer = styled.div`
@@ -82,4 +87,18 @@ export const FieldError = styled.span`
   color:#b32e2e;
   font-size:11px;
   min-height:18px;
+`;
+
+export const FormSuccess = styled.div`
+  color: #28a828;
+  font-size:12px;
+  min-height:20px;
+  font-weight: 700;
+`;
+
+export const FormError = styled.div`
+  color: #b32e2e;
+  font-size:12px;
+  min-height:20px;
+  font-weight: 700;
 `;
