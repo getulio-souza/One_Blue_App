@@ -30,7 +30,7 @@ export function LoginForm(props) {
 
   const onSubmit = async (values) => {
     setError(null);
-    const response = await axios.post("http://localhost:3000/api/v1/login", values).catch((err) => {
+    const response = await axios.post("http://localhost:3000/Controllers/cadasterController", values).catch((err) => {
       if (err && err.response)
         setError(err.response.data.message);
     });
@@ -53,6 +53,7 @@ export function LoginForm(props) {
         <FieldContainer>
           <Input
             name="email"
+            type="email"
             placeholder="Digite seu e-mail"
             value={formik.values.email}
             onChange={formik.handleChange}

@@ -30,11 +30,11 @@ const validationSchema = yup.object({
   email: yup
     .string()
     .email("Por favor, digite um endereço de e-mail válido.")
-    .required(),
+    .required("E-mail obrigatório"),
   password: yup
     .string()
     .matches(PASSWORD_REGEX, "Por favor, digite uma senha forte")
-    .required(),
+    .required("senha obrigatória"),
   confirmarSenha: yup.string().when("password", {
     is: (val) => (val && val.length > 0 ? true : false),
     then: yup
@@ -53,8 +53,8 @@ export function SignUpForm(props) {
   const [error, setError] = useState(null);
 
   const onSubmit = async (values) => {
-    const { confirmarSenha, ...data } = values; 
-    const response = await axios.post("http://localhost:5000/api/v1/register", data).catch((err) => {
+    const {fullName, password, confirmarSenha } = values; 
+    const response = await axios.post("http://localhost:3000/Controllers/cadasterController", data).catch((err) => {
       if (err && err.response)
       setError(err.response.data.message);
       setSuccess(null);

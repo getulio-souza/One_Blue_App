@@ -141,8 +141,7 @@ export function AccountBox(props) {
                         <SmallText>Por favor, entre para continuar</SmallText>
                     </HeaderContainer>}
                     {active === "signup" && <HeaderContainer>
-                        <HeaderText>Criar</HeaderText>
-                        <HeaderText>Conta</HeaderText>
+                        <HeaderText>Criar Conta</HeaderText>
                         <SmallText>Por favor, cadastre-se para continuar</SmallText>
                     </HeaderContainer>}
                 </TopContainer>

@@ -3,8 +3,10 @@ import { Cadaster } from '../Services/Cadaster';
 import { Login } from '../Services/Login';
 
 export interface ICadaster {
-  name: "Fulano"
-  password: "senha"
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
 }
 
 export class CadasterController {
